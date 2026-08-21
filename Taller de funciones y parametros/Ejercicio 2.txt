@@ -1,0 +1,34 @@
+def conectar_api(url, timeout=30, retries=3, use_ssl=True):
+    protocolo = "https" if use_ssl else "http"
+    return (
+        f"CONNECT {protocolo}://{url} "
+        f"[timeout={timeout}s, retries={retries}, ssl={use_ssl}]"
+    )
+
+
+def agregar_bitacora_bug(mensaje, historial=[]):
+    historial.append(mensaje)
+    return historial
+
+
+def agregar_bitacora_ok(mensaje, historial=None):
+    if historial is None:
+        historial = []
+    historial.append(mensaje)
+    return historial
+
+
+def demo_seccion_2():
+    print("\n=== SECCIÓN 2 ===")
+    print(conectar_api("api.miempresa.com/v1"))
+    print(conectar_api("api.miempresa.com/v1", timeout=10, use_ssl=False))
+
+    print("\nEjercicio 2.2 - demostrando el bug:")
+    print("  Llamada 1:", agregar_bitacora_bug("evento A"))
+    print("  Llamada 2:", agregar_bitacora_bug("evento B"))
+    print("  -> 'evento A' seguía ahí: el historial se comparte entre llamadas")
+
+    print("\nVersión corregida con None:")
+    print("  Llamada 1:", agregar_bitacora_ok("evento A"))
+    print("  Llamada 2:", agregar_bitacora_ok("evento B"))
+    print("  -> cada llamada arranca con una lista independiente")

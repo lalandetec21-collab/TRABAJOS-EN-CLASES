@@ -1,0 +1,39 @@
+def buscar_clave_profunda(estructura, clave_objetivo):
+    if isinstance(estructura, dict):
+        if clave_objetivo in estructura:
+            return estructura[clave_objetivo]
+        for valor in estructura.values():
+            resultado = buscar_clave_profunda(valor, clave_objetivo)
+            if resultado is not None:
+                return resultado
+    elif isinstance(estructura, list):
+        for elemento in estructura:
+            resultado = buscar_clave_profunda(elemento, clave_objetivo)
+            if resultado is not None:
+                return resultado
+    return None
+
+
+def aplanar_lista(lista_anidada):
+    resultado = []
+    for elemento in lista_anidada:
+        if isinstance(elemento, list):
+            resultado.extend(aplanar_lista(elemento))
+        else:
+            resultado.append(elemento)
+    return resultado
+
+
+def demo_seccion_6():
+    print("\n=== SECCIÓN 6 ===")
+    data = {
+        "usuario": {
+            "perfil": {"nombre": "Ana", "config": {"tema": "oscuro"}},
+        },
+        "activo": True,
+    }
+    print(buscar_clave_profunda(data, "tema"))
+    print(buscar_clave_profunda(data, "no_existe"))
+
+    print("\nEjercicio 6.2:")
+    print(aplanar_lista([1, [2, [3, 4], 5], 6, [7]]))

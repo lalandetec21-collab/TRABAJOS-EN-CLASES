@@ -1,0 +1,50 @@
+class EventDispatcher:
+    def __init__(self, detener_en_error=False):
+        self._listeners = {}
+        self.detener_en_error = detener_en_error
+
+    def registrar(self, nombre_evento):
+        def decorador(funcion):
+            self._listeners.setdefault(nombre_evento, []).append(funcion)
+            return funcion
+        return decorador
+
+    def _limpiar_payload(self, payload):
+        if isinstance(payload, str):
+            return " ".join(payload.split())
+        if isinstance(payload, dict):
+            return {k: self._limpiar_payload(v) for k, v in payload.items()}
+        if isinstance(payload, list):
+            return [self._limpiar_payload(v) for v in payload]
+        return payload
+
+    def emitir(self, nombre_evento, **payload):
+        payload_limpio = self._limpiar_payload(payload)
+        listeners = self._listeners.get(nombre_evento, [])
+
+        for callback in listeners:
+            try:
+                callback(**payload_limpio)
+            except Exception as e:
+                if self.detener_en_error:
+                    raise
+                print(f"  !  Error en listener de '{nombre_evento}': {e}")
+
+
+def demo_seccion_7():
+    print("\n=== SECCIÓN 7: PROYECTO INTEGRADOR ===")
+    dispatcher = EventDispatcher(detener_en_error=False)
+
+    @dispatcher.registrar("usuario_creado")
+    def enviar_bienvenida(nombre, email):
+        print(f"   Enviando bienvenida a {nombre} <{email}>")
+
+    @dispatcher.registrar("usuario_creado")
+    def registrar_auditoria(nombre, email):
+        print(f"   Auditoría: usuario '{nombre}' registrado")
+
+    dispatcher.emitir(
+        "usuario_creado",
+        nombre="   Laura   Gómez  ",
+        email="  laura@empresa.com ",
+    )

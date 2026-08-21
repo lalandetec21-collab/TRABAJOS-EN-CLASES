@@ -1,0 +1,35 @@
+def crear_perfil_usuario(nombre, email, rol):
+    if "@" not in email:
+        return f"Error: el email '{email}' no es válido (falta '@')."
+    return {
+        "nombre": nombre,
+        "email": email,
+        "rol": rol,
+    }
+
+
+def aplicar_impuesto(tasa_iva, lista_precios):
+    print(f"  [dentro] tasa_iva antes = {tasa_iva}")
+    print(f"  [dentro] lista_precios antes = {lista_precios}")
+
+    for i in range(len(lista_precios)):
+        lista_precios[i] = round(lista_precios[i] * (1 + tasa_iva), 2)
+
+    tasa_iva = tasa_iva + 100
+
+    print(f"  [dentro] tasa_iva después = {tasa_iva}")
+    print(f"  [dentro] lista_precios después = {lista_precios}")
+
+
+def demo_seccion_1():
+    print("\n=== SECCIÓN 1 ===")
+    print(crear_perfil_usuario("Laura Gómez", "laura@empresa.com", "Desarrolladora"))
+    print(crear_perfil_usuario(rol="Admin", nombre="Carlos", email="carlos_sin_arroba"))
+
+    print("\nEjercicio 1.2:")
+    tasa = 0.16
+    precios = [100, 200, 300]
+    print(f"  [fuera] tasa antes = {tasa}, precios antes = {precios}")
+    aplicar_impuesto(tasa, precios)
+    print(f"  [fuera] tasa después = {tasa}  <- NO cambió (inmutable)")
+    print(f"  [fuera] precios después = {precios}  <- SÍ cambió (mutable)")

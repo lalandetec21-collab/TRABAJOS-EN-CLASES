@@ -1,0 +1,41 @@
+def calcular_metricas(*numeros, **opciones):
+    operacion = opciones.get("operacion", "suma")
+
+    if operacion == "promedio":
+        resultado = sum(numeros) / len(numeros) if numeros else 0
+    elif operacion == "suma":
+        resultado = sum(numeros)
+    else:
+        return f"Operación '{operacion}' no soportada."
+
+    redondear = opciones.get("redondear", False)
+    if redondear:
+        decimales = redondear if isinstance(redondear, int) and redondear is not True else 2
+        resultado = round(resultado, decimales)
+
+    return resultado
+
+
+def auditar_evento(nivel, *etiquetas, **metadatos):
+    linea = f"[{nivel.upper()}]"
+
+    if etiquetas:
+        tags = ", ".join(f"#{t}" for t in etiquetas)
+        linea += f" Tags: {tags}"
+
+    if metadatos:
+        meta = ", ".join(f"{k}: {v}" for k, v in metadatos.items())
+        linea += f" | Metadatos -> {meta}"
+
+    print(linea)
+
+
+def demo_seccion_3():
+    print("\n=== SECCIÓN 3 ===")
+    print(calcular_metricas(1, 2, 3, 4, operacion="promedio"))
+    print(calcular_metricas(1.234, 2.567, operacion="suma", redondear=1))
+    print(calcular_metricas(10, 20, 30))
+
+    print("\nEjercicio 3.2:")
+    auditar_evento("error", "seguridad", "auth", usuario="admin", ip="192.168.1.50", intento=3)
+    auditar_evento("info")

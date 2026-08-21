@@ -1,0 +1,35 @@
+def inicializar_db(host, puerto, db_name, usuario, password):
+    return (
+        f"Conectando a {db_name} en {host}:{puerto} "
+        f"como '{usuario}' (password oculto)"
+    )
+
+
+def generar_reporte(titulo, *secciones, **firmas):
+    print(f"Reporte: {titulo}")
+    print(f"  Secciones: {secciones}")
+    print(f"  Firmas: {firmas}")
+
+
+def demo_seccion_4():
+    print("\n=== SECCIÓN 4 ===")
+    config = {
+        "host": "cluster-db.internal",
+        "puerto": 5432,
+        "db_name": "production_v2",
+        "usuario": "app_user",
+        "password": "S3cur3P@ss!",
+    }
+    print(inicializar_db(**config))
+
+    print("\nEjercicio 4.2:")
+    secciones_base = ("Introducción", "Resumen Ejecutivo")
+    secciones_extra = ["Anexo A", "Anexo B", "Conclusiones"]
+    firmas_dict = {"aprobado_por": "Gerencia", "fecha": "2026-08-19"}
+
+    generar_reporte(
+        "Informe Trimestral",
+        *secciones_base,
+        *secciones_extra,
+        **firmas_dict,
+    )

@@ -1,0 +1,38 @@
+def procesar_coleccion(lista_datos, funcion_transformacion, funcion_filtro):
+    resultado = []
+    for elemento in lista_datos:
+        if funcion_filtro(elemento):
+            resultado.append(funcion_transformacion(elemento))
+    return resultado
+
+
+def ejecutar_mision(nombre_tarea, al_exito=None, al_error=None):
+    try:
+        if "riesgo" in nombre_tarea.lower():
+            raise RuntimeError("condiciones de riesgo detectadas")
+
+        resultado = f"'{nombre_tarea}' completada correctamente"
+        if al_exito:
+            al_exito(nombre_tarea, resultado)
+    except Exception as e:
+        if al_error:
+            al_error(nombre_tarea, str(e))
+
+
+def demo_seccion_5():
+    print("\n=== SECCIÓN 5 ===")
+    numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    es_par = lambda n: n % 2 == 0
+    duplicar = lambda n: n * 2
+    print(procesar_coleccion(numeros, duplicar, es_par))
+
+    print("\nEjercicio 5.2:")
+
+    def on_success(tarea, resultado):
+        print(f"   ÉXITO en '{tarea}': {resultado}")
+
+    def on_error(tarea, error):
+        print(f"   ERROR en '{tarea}': {error}")
+
+    ejecutar_mision("Despliegue de producción", al_exito=on_success, al_error=on_error)
+    ejecutar_mision("Operación de riesgo alto", al_exito=on_success, al_error=on_error)
