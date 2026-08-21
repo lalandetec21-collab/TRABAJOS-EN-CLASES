@@ -1,0 +1,23 @@
+ventas_dia = [
+"Electrónica", "Ropa", "Electrónica", "Hogar",
+"Ropa", "Electrónica", "Juguetes", "Hogar"
+]
+
+# 1. Eliminar duplicados
+categorias_unicas = set(ventas_dia)
+
+# 2. Contar cuántas veces aparece cada categoría
+conteo = {}
+
+for categoria in ventas_dia:
+if categoria in conteo:
+conteo[categoria] += 1
+else:
+conteo[categoria] = 1
+
+# 3. Encontrar la categoría más vendida
+categoria_mas_vendida = max(conteo, key=conteo.get)
+
+print("Categorías únicas:", categorias_unicas)
+print("Cantidad de ventas:", conteo)
+print("Categoría más vendida:", categoria_mas_vendida)

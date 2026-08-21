@@ -1,0 +1,46 @@
+import math 
+ 
+class estudiante:
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.notas = []
+        
+    def agregar_notas(self, nota1, nota2, nota3):
+        if 0 <= nota1 <= 100 and 0 <= nota2 <= 100 and 0 <= nota3 <= 100:
+            self.notas.append(nota1)
+            self.notas.append(nota2)
+            self.notas.append(nota3)
+        else:
+            print("Las notas deben estar entre 0 y 100.")
+    def calcular_promedio(self):
+        if len (self.notas) == 0:
+            return 0
+        
+        promedio = sum(self.notas) / len(self.notas)
+        return math.ceil(promedio)
+    
+    def estado_final(self):
+        if self.calcular_promedio() >= 60:
+            return "Aprobado"
+        else:
+            return "Reprobado"
+
+
+nombre = input("Ingrese el nombre del estudiante: ")
+estudiante = estudiante(nombre)
+notas = input(
+    "Ingrese tres notas separadas por comas: "
+).split(",")
+
+if len(notas) == 3:
+    estudiante.agregar_notas(
+        float(notas[0].strip()),
+        float(notas[1].strip()),
+        float(notas[2].strip()),
+    )
+else:
+    print("Debe ingresar exactamente tres notas.")
+
+    
+print(f"Promedio final de {estudiante.nombre}: {estudiante.calcular_promedio()}")
+print(f"Estado final: {estudiante.estado_final()}")
